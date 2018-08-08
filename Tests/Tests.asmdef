@@ -1,0 +1,14 @@
+{
+    "name": "DUCK.Utils.Tests",
+    "references": [
+        "Duck.Utils"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
