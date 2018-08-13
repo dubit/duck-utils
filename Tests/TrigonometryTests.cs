@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using UnityEngine;
 
-namespace DUCK.Utils.Editor.Tests
+namespace DUCK.Utils.Tests
 {
 	[TestFixture]
-	public class TrigonometryTest
+	public class TrigonometryTests
 	{
 		/* Test triangle: the 30/60/90 triangle
 		 *
