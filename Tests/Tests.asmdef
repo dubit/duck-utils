@@ -1,5 +1,5 @@
 {
-    "name": "DUCK.Utils.Tests",
+    "name": "Duck.Utils.Tests",
     "references": [
         "Duck.Utils"
     ],
