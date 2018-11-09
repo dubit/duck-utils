@@ -50,12 +50,11 @@ namespace DUCK.Utils
 		public bool UseScaledTime { get; set; }
 
 		public float TimeRemaining { get; private set; }
-		public float TimeElapsed { get { return Duration - TimeRemaining; } }
-		public bool IsLooping { get { return LoopCount != 0; } }
-		public bool IsRunning { get { return TimeRemaining > 0 && !IsPaused; } }
+		public float TimeElapsed => Duration - TimeRemaining;
+		public bool IsLooping => LoopCount != 0;
+		public bool IsRunning => TimeRemaining > 0 && !IsPaused;
 		public bool IsPaused { get; private set; }
 
-		private readonly MonoBehaviourService monoService;
 		private bool isUpdating;
 		private Action onLoopComplete;
 		private Action onComplete;
@@ -66,7 +65,6 @@ namespace DUCK.Utils
 		public Timer(float duration = 0f)
 		{
 			TimeRemaining = Duration = duration;
-			monoService = MonoBehaviourService.Instance;
 		}
 
 		/// <summary>
@@ -154,7 +152,7 @@ namespace DUCK.Utils
 
 		/// <summary>
 		/// Reset the timer, back to its full duration.
-		/// This function will not affact loop counts.
+		/// This function will not affect the loop counts.
 		/// In addition, this function will not stop, pause or unpause the timer.
 		/// </summary>
 		public void Reset()
@@ -167,14 +165,17 @@ namespace DUCK.Utils
 			if (!isUpdating)
 			{
 				isUpdating = true;
-				monoService.OnUpdate += OnUpdateHandler;
+				MonoBehaviourService.Instance.OnUpdate += OnUpdateHandler;
 			}
 		}
 
 		private void RemoveFromUpdateQueue()
 		{
-			isUpdating = false;
-			monoService.OnUpdate -= OnUpdateHandler;
+			if (!isUpdating)
+			{
+				isUpdating = false;
+				MonoBehaviourService.Instance.OnUpdate -= OnUpdateHandler;
+			}
 		}
 
 		private void OnUpdateHandler()
@@ -189,13 +190,13 @@ namespace DUCK.Utils
 					{
 						// Faster than LoopCount--, stop arguing with this little piece of fancy code
 						--LoopCount;
-						if (onLoopComplete != null) onLoopComplete();
+						onLoopComplete?.Invoke();
 
 						// All loops are finished
 						if (LoopCount == 0)
 						{
 							Stop();
-							if (onComplete!= null) onComplete();
+							onComplete?.Invoke();
 						}
 						// Start next loop
 						else
@@ -206,7 +207,7 @@ namespace DUCK.Utils
 					else
 					{
 						Stop();
-						if (onComplete!= null) onComplete();
+						onComplete?.Invoke();
 					}
 				}
 			}
