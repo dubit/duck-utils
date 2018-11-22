@@ -171,7 +171,7 @@ namespace DUCK.Utils
 
 		private void RemoveFromUpdateQueue()
 		{
-			if (!isUpdating)
+			if (isUpdating)
 			{
 				isUpdating = false;
 				MonoBehaviourService.Instance.OnUpdate -= OnUpdateHandler;
