@@ -44,5 +44,27 @@ namespace DUCK.Utils.Tests
 
 			Assert.IsEmpty(childrenToCall);
 		}
+
+		[Test]
+		public void ExpectResetToResetWorldPositionRotationAndScale()
+		{
+			transform.position = new Vector3(1, 2, 3);
+			transform.Reset();
+
+			Assert.AreEqual(Vector3.zero, transform.position);
+			Assert.AreEqual(Quaternion.identity, transform.rotation);
+			Assert.AreEqual(Vector3.one, transform.localScale);
+		}
+
+		[Test]
+		public void ExpectResetToResetLocalPositionRotationAndScale()
+		{
+			transform.position = new Vector3(1, 2, 3);
+			transform.Reset(true);
+
+			Assert.AreEqual(Vector3.zero, transform.localPosition);
+			Assert.AreEqual(Quaternion.identity, transform.localRotation);
+			Assert.AreEqual(Vector3.one, transform.localScale);
+		}
 	}
 }
