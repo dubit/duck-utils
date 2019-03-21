@@ -38,7 +38,7 @@ namespace DUCK.Utils
 			get { return duration; }
 			set
 			{
-				if (value < 0f) Debug.LogWarning("Time duration should not be negative.");
+				if (value < 0f) Debug.LogError("Timer duration should not be negative!");
 				duration = value;
 			}
 		}
@@ -211,11 +211,17 @@ namespace DUCK.Utils
 					}
 				}
 			}
-			// This should not occured since we are not waiting for the next update
-			// The timer should have been stopped already
+			// This should only happen if the Duration set to 0.
 			else
 			{
 				Stop();
+				// This check should be redundant -- but just in case!
+				// We give you no callback if your duration < 0.
+				// You shouldn't ignoring the Error logged in the setter at the first place!
+				if (Duration >= 0f)
+				{
+					onComplete?.Invoke();
+				}
 			}
 		}
 	}
