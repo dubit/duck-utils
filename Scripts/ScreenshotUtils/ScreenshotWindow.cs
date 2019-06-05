@@ -11,7 +11,15 @@ namespace DUCK.Utils.ScreenshotUtils
 		private enum FileFormat
 		{
 			PNG,
-			JPEG,
+			JPEG
+		}
+
+		private enum AntiAliasing
+		{
+			None = 1,
+			Two = 2,
+			Four = 4,
+			Eight = 8
 		}
 
 		private Camera renderCamera;
@@ -21,7 +29,7 @@ namespace DUCK.Utils.ScreenshotUtils
 		private int jpegQuality = 75;
 		private int width = 512;
 		private int height = 512;
-		private int antiAliasing = 8;
+		private AntiAliasing antiAliasing = AntiAliasing.Eight;
 		private bool nameRendersByDate;
 		private string lastPath;
 
@@ -94,7 +102,7 @@ namespace DUCK.Utils.ScreenshotUtils
 			width = EditorGUILayout.IntField("Width", width);
 			height = EditorGUILayout.IntField("Height", height);
 			EditorGUILayout.EndHorizontal();
-			antiAliasing = EditorGUILayout.IntField("Anti Aliasing (0, 1, 2, 4, 8)", antiAliasing);
+			antiAliasing = (AntiAliasing)EditorGUILayout.EnumPopup("Anti Aliasing", antiAliasing);
 
 			EditorGUILayout.Space();
 			nameRendersByDate = EditorGUILayout.ToggleLeft("Name Renders By Date", nameRendersByDate);
@@ -141,7 +149,7 @@ namespace DUCK.Utils.ScreenshotUtils
 					return;
 				}
 
-				var texture = camera.RenderToTexture(width, height, 0, textureFormat, renderTextureFormat, antiAliasing);
+				var texture = camera.RenderToTexture(width, height, 0, textureFormat, renderTextureFormat, (int)antiAliasing);
 				var imageData = fileFileFormat == FileFormat.PNG ? texture.EncodeToPNG() : texture.EncodeToJPG(jpegQuality);
 				File.WriteAllBytes(path, imageData);
 				DestroyImmediate(texture);
