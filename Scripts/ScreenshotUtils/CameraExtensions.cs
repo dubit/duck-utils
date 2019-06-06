@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 
 namespace DUCK.Utils.ScreenshotUtils
 {
@@ -20,10 +19,10 @@ namespace DUCK.Utils.ScreenshotUtils
 		/// <returns>A Texture2D object of the given width/height</returns>
 		public static Texture2D RenderToTexture(this Camera camera, int width, int height, int cullingMask = 0,
 			TextureFormat textureFormat = TextureFormat.ARGB32,
-			RenderTextureFormat renderTextureFormat = RenderTextureFormat.ARGBFloat,
+			RenderTextureFormat renderTextureFormat = RenderTextureFormat.Default,
 			int antiAliasing = 8)
 		{
-			if (camera == null) throw new ArgumentNullException("camera");
+			if (camera == null) throw new ArgumentNullException(nameof(camera));
 			if (width <= 0) throw new ArgumentException(INVALID_SIZE_MESSAGE);
 			if (height <= 0) throw new ArgumentException(INVALID_SIZE_MESSAGE);
 
