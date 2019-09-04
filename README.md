@@ -10,3 +10,4 @@ A collection of Unity utils
 | Timer | A callback based, self updating timer. | [Docs](Docs/Timer.md) |
 | MonoBehaviourService | Service that allows subcription to mono behaviour messages as events | [Docs](Docs/MonoBehaviourService.md) |
 | TransformSnapshot | A util for taking snapshots of transform properties and applying them | [Docs](Docs/TransformSnapshot.md) |
+| IndexUtil | A util for easily adjusting indices and keeping them to valid values | [Docs](Docs/IndexUtil.md) |
