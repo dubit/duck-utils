@@ -4,6 +4,10 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_2019_3_OR_NEWER
+using UnityEngine.Experimental.Rendering;
+#endif
+
 namespace DUCK.Utils.ScreenshotUtils
 {
 	public class RenderToFile : EditorWindow
@@ -24,8 +28,12 @@ namespace DUCK.Utils.ScreenshotUtils
 
 		private Camera renderCamera;
 		private FileFormat fileFileFormat;
+#if UNITY_2019_3_OR_NEWER
+		private GraphicsFormat graphicsFormat = GraphicsFormat.R32G32B32A32_SFloat;
+#else
 		private TextureFormat textureFormat = TextureFormat.ARGB32;
 		private RenderTextureFormat renderTextureFormat = RenderTextureFormat.ARGBFloat;
+#endif
 		private int jpegQuality = 75;
 		private int width = 512;
 		private int height = 512;
@@ -95,8 +103,12 @@ namespace DUCK.Utils.ScreenshotUtils
 				RenderJPEGOptions();
 			}
 
+#if UNITY_2019_3_OR_NEWER
+			graphicsFormat = (GraphicsFormat)EditorGUILayout.EnumPopup("Graphics Format", graphicsFormat);
+#else
 			textureFormat = (TextureFormat)EditorGUILayout.EnumPopup("Texture Format", textureFormat);
 			renderTextureFormat = (RenderTextureFormat)EditorGUILayout.EnumPopup("Render Texture Format", renderTextureFormat);
+#endif
 
 			EditorGUILayout.BeginHorizontal();
 			width = EditorGUILayout.IntField("Width", width);
@@ -149,7 +161,11 @@ namespace DUCK.Utils.ScreenshotUtils
 					return;
 				}
 
+#if UNITY_2019_3_OR_NEWER
+				var texture = camera.RenderToTexture(width, height, 0, graphicsFormat, (int)antiAliasing);
+#else
 				var texture = camera.RenderToTexture(width, height, 0, textureFormat, renderTextureFormat, (int)antiAliasing);
+#endif
 				var imageData = fileFileFormat == FileFormat.PNG ? texture.EncodeToPNG() : texture.EncodeToJPG(jpegQuality);
 				File.WriteAllBytes(path, imageData);
 				DestroyImmediate(texture);
