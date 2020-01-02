@@ -91,6 +91,16 @@ namespace DUCK.Utils
 		}
 
 		/// <summary>
+		/// Returns a normalized angle that will always be between 0 and 360.
+		/// </summary>
+		/// <param name="rotation">The Quaternion rotation</param>
+		/// <returns>The normalized angles</returns>
+		public static Vector3 NormalizeAngle360(Quaternion rotation)
+		{
+			return NormalizeAngle360(rotation.eulerAngles);
+		}
+
+		/// <summary>
 		/// Returns a normalized angle that will always be between -180 and 180.
 		/// </summary>
 		/// <param name="angleInDegrees">Angle in degrees</param>
@@ -109,6 +119,16 @@ namespace DUCK.Utils
 		public static Vector3 NormalizeAngle180(Vector3 angles)
 		{
 			return new Vector3(NormalizeAngle180(angles.x), NormalizeAngle180(angles.y), NormalizeAngle180(angles.z));
+		}
+
+		/// <summary>
+		/// Returns normalized angles that will always be between -180 and 180.
+		/// </summary>
+		/// /// <param name="rotation">The Quaternion rotation</param>
+		/// <returns>The normalized angles</returns>
+		public static Vector3 NormalizeAngle180(Quaternion rotation)
+		{
+			return NormalizeAngle180(rotation.eulerAngles);
 		}
 
 		/// <summary>

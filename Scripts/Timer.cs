@@ -26,7 +26,7 @@ namespace DUCK.Utils
 		/// 0 means no loops left; -1 means infinite loop.
 		/// Will clamp to -1 if less than -1.
 		/// </summary>
-		public int LoopCount { get { return loopCount; } set { loopCount = Mathf.Max(value, -1); } }
+		public int LoopCount { get => loopCount; set => loopCount = Mathf.Max(value, -1); }
 		private int loopCount;
 
 		/// <summary>
@@ -35,7 +35,7 @@ namespace DUCK.Utils
 		/// </summary>
 		public float Duration
 		{
-			get { return duration; }
+			get => duration;
 			set
 			{
 				if (value < 0f) Debug.LogError("Timer duration should not be negative!");
@@ -52,7 +52,7 @@ namespace DUCK.Utils
 		public float TimeRemaining { get; private set; }
 		public float TimeElapsed => Duration - TimeRemaining;
 		public bool IsLooping => LoopCount != 0;
-		public bool IsRunning => TimeRemaining > 0 && !IsPaused;
+		public bool IsRunning => TimeRemaining > 0 && !IsPaused && isUpdating;
 		public bool IsPaused { get; private set; }
 
 		private bool isUpdating;
